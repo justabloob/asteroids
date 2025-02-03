@@ -23,6 +23,7 @@ def main():
 
     dt = 0  # initialize delta time to 0 seconds
 
+    # Game loop
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -30,9 +31,19 @@ def main():
                 return
             
         updatable.update(dt)
+
+        # Check for collisions
+        for asteroid in asteroids:
+            if player.collides_with(asteroid):
+                print("Game over!")
+                pygame.quit()
+                return
+
         screen.fill((0, 0, 0))
+
         for obj in drawable:
             obj.draw(screen)
+
         pygame.display.flip()
         dt = clock.tick(60) / 1000 # limit the framerate to 60 FPS
 
